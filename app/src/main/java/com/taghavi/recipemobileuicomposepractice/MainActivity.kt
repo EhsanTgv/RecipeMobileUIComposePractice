@@ -8,6 +8,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -152,7 +154,114 @@ fun Content(recipe: Recipe) {
             BasicInfo(recipe)
             Description(recipe)
             ServingCalculator()
+            IngredientsHeader()
+            IngredientsList(recipe)
         }
+    }
+}
+
+@Composable
+fun IngredientsList(recipe: Recipe) {
+    EasyGrid(nColumn = 3, items = recipe.ingredients) {
+        IngredientCard(
+            it.image,
+            it.title,
+            it.subTitle,
+            Modifier
+        )
+    }
+}
+
+@Composable
+fun <T> EasyGrid(nColumn: Int, items: List<T>, content: @Composable (T) -> Unit) {
+    Column(Modifier.padding(16.dp)) {
+        for (i in items.indices step nColumn) {
+            Row {
+                for (j in 0 until nColumn) {
+                    if (i + j < items.size) {
+                        Box(
+                            contentAlignment = Alignment.TopCenter,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            content(items[i + j])
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.weight(1f, fill = true))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun IngredientCard(
+    @DrawableRes iconResource: Int,
+    title: String,
+    subtitle: String,
+    modifier: Modifier,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.padding(bottom = 16.dp)
+    ) {
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            backgroundColor = LightGray,
+            modifier = Modifier
+                .width(100.dp)
+                .height(100.dp)
+                .padding(bottom = 8.dp)
+        ) {
+            Image(
+                painter = painterResource(id = iconResource),
+                contentDescription = null,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        Text(
+            text = title,
+            modifier = Modifier.width(100.dp),
+            fontSize = 14.sp,
+            fontWeight = Medium
+        )
+        Text(text = subtitle, color = DarkGray, modifier = Modifier.width(100.dp), fontSize = 14.sp)
+    }
+}
+
+@Composable
+fun IngredientsHeader() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .clip(Shapes.medium)
+            .background(LightGray)
+            .fillMaxWidth()
+            .height(44.dp)
+    ) {
+        TabButton(text = "Ingredients", active = true, modifier = Modifier.weight(1f))
+        TabButton(text = "Tools", active = false, modifier = Modifier.weight(1f))
+        TabButton(text = "Steps", active = false, modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+fun TabButton(text: String, active: Boolean, modifier: Modifier) {
+    Button(
+        onClick = {},
+        shape = RoundedCornerShape(72.dp),
+        modifier = modifier.fillMaxHeight(),
+        elevation = null,
+        colors = if (active) ButtonDefaults.buttonColors(
+            backgroundColor = Pink,
+            contentColor = White
+        ) else ButtonDefaults.buttonColors(
+            backgroundColor = LightGray,
+            contentColor = DarkGray
+        )
+    ) {
+        Text(text = text)
     }
 }
 
