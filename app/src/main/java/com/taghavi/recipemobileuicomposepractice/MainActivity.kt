@@ -156,7 +156,58 @@ fun Content(recipe: Recipe) {
             ServingCalculator()
             IngredientsHeader()
             IngredientsList(recipe)
+            ShoppingListButton()
+            Reviews(recipe)
         }
+    }
+}
+
+@Composable
+fun Reviews(recipe: Recipe) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column {
+            Text(text = "Reviews", fontWeight = Bold)
+            Text(recipe.reviews, color = DarkGray)
+        }
+        Button(
+            onClick = {},
+            elevation = null,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Transparent,
+                contentColor = Pink,
+            )
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "See all")
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_arrow_right),
+                    contentDescription = null
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ShoppingListButton() {
+    Button(
+        onClick = { /*TODO*/ },
+        elevation = null,
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = LightGray,
+            contentColor = Color.Black
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(text = "Add to Shopping List", modifier = Modifier.padding(8.dp))
     }
 }
 
