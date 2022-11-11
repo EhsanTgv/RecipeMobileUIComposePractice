@@ -70,7 +70,7 @@ fun ParallaxToolbar(recipe: Recipe, scrollState: LazyListState) {
 
     val offset = min(scrollState.firstVisibleItemScrollOffset, maxOffset)
 
-    val offsetProcess = max(0f, offset * 3f - 2f * maxOffset)
+    val offsetProcess = max(0f, offset * 3f - 2f * maxOffset) / maxOffset
 
     TopAppBar(
         contentPadding = PaddingValues(),
@@ -132,8 +132,8 @@ fun ParallaxToolbar(recipe: Recipe, scrollState: LazyListState) {
                     fontSize = 26.sp,
                     fontWeight = Bold,
                     modifier = Modifier
-                        .padding(horizontal = (16 + 0.05 * offsetProcess).dp)
-//                        .scale(1f - 0.025f * offsetProcess)
+                        .padding(horizontal = (16 + 28 * offsetProcess).dp)
+                        .scale(1f - 0.25f * offsetProcess)
                 )
             }
         }
